@@ -179,7 +179,7 @@ def get_groups_above_cutoff(cutoff, cache_file):
             id = breed_data['data']['relationships']['group']['data']['id']
             if id:
                 dictionary[id] = dictionary.get(id, 0) + 1
-        except (KeyError, TypeError):
+        except (KeyError, TypeError, AttributeError):
             continue
     
     result = {group_id: count for group_id, count in dictionary.items() if count >= cutoff}
@@ -207,7 +207,42 @@ def recommend_breeds_in_same_group(breed_name, cache_file):
             "No group information available for '{breed_name}'."  (no group id)
             "No recommendations found based on '{breed_name}'."  (no other breeds in that group)
     """
-    pass
+    cache = load_json(cache_file)
+
+    if not cache:
+        return "No breed data found in cache."
+
+    id, name = None, None
+    for breed_data in cache.values():
+        try:
+            if breed_data['data']['attributes']['name'].lower() == breed_name.lower():
+                id = breed_data["data"]["relationships"]["group"]["data"]["id"]
+                name = breed_data['data']['attributes']['name']
+                break
+        except (KeyError, TypeError, AttributeError):
+            continue
+
+    if name is None:
+        return f"'{breed_name}' is not in the cache."
+
+    if not id:
+        return f"No group information available for '{breed_name}'."
+
+    recs = []
+    for breed_data in cache.values():
+        try:
+            group_id = breed_data['data']['relationships']['group']['data']['id']
+            breed_nam_thing = breed_data['data']['attributes']['name']
+            if group_id == id and breed_nam_thing.lower() != name.lower():
+                recs.append(breed_nam_thing)
+        except (KeyError, TypeError):
+            continue
+
+    if not recs:
+        return f"No recommendations found based on '{breed_name}'."
+
+    return sorted(recs)
+
 
 
 class TestHomeworkDogAPI(unittest.TestCase):
