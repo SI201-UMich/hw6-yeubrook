@@ -6,9 +6,13 @@
 # If you worked with generative AI also add a statement for how you used it.
 # e.g.:
 # Asked ChatGPT for help debugging and understanding the JSON structure
-#
+# I used ChatGPT to help me with a lot of the function templates because
+# I already know how to code a lot of the features. It sped up a lot of 
+# the process and syntax for the functions. Also Copilot helped me with
+# some of the functions too with tab completion.
 # Did your use of GenAI on this assignment align with your goals and guidelines in your Gen AI contract? If not, why?
-#
+# Yes it did! I used it to help me speed up the process while not annoying
+# the GSIs with a lot of questions.
 # --- ARGUMENTS & EXPECTED RETURN VALUES PROVIDED --- #
 # --- SEE INSTRUCTIONS FOR FULL DETAILS ON METHOD IMPLEMENTATION --- #
 
