@@ -140,7 +140,7 @@ def get_longest_lifespan_breed(cache_file):
         try:
             attributes, name, life = breed_data['data']['attributes'], breed_data['data']['attributes']['name'], breed_data['data']['attributes']['life']['max']
             
-            if life is None:
+            if not isinstance(life, int):
                 continue
 
             if (longest_lifespan is None) or (life > longest_lifespan) or (life == longest_lifespan and name < longest_lifespan_breed):
