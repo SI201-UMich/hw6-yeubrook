@@ -171,7 +171,19 @@ def get_groups_above_cutoff(cutoff, cache_file):
     RETURNS:
         A dictionary {group_uuid: count} for groups with count >= cutoff only.
     """
-    pass
+    cache = load_json(cache_file)
+
+    dictionary = {}
+    for breed_data in cache.values():
+        try:
+            id = breed_data['data']['relationships']['group']['data']['id']
+            if id:
+                dictionary[id] = dictionary.get(id, 0) + 1
+        except (KeyError, TypeError):
+            continue
+    
+    result = {group_id: count for group_id, count in dictionary.items() if count >= cutoff}
+    return result
 
 
 # Extra Credit
@@ -195,6 +207,7 @@ def recommend_breeds_in_same_group(breed_name, cache_file):
             "No group information available for '{breed_name}'."  (no group id)
             "No recommendations found based on '{breed_name}'."  (no other breeds in that group)
     """
+    pass
 
 
 class TestHomeworkDogAPI(unittest.TestCase):
